@@ -177,7 +177,7 @@ mininet> iperf h1 h2
 
 ### 1. Starting the POX Controller
 
-![POX Controller Starting](Screenshot_2026-04-11_at_10_51_47_PM.png)
+![POX Controller Starting](screenshots/1.png)
 
 The POX controller (v0.7.0) starts up and listens on `0.0.0.0:6633` for incoming OpenFlow connections. At this stage no switches are connected yet. A Python 3.10 compatibility warning is shown — the controller still functions correctly.
 
@@ -185,7 +185,7 @@ The POX controller (v0.7.0) starts up and listens on `0.0.0.0:6633` for incoming
 
 ### 2. Launching Mininet and Verifying Topology
 
-![Mininet Launch](Screenshot_2026-04-11_at_10_52_15_PM.png)
+![Mininet Launch](screenshots/6.png)
 
 Mininet starts and creates the full network:
 - Hosts `h1` and `h2` are added
@@ -198,7 +198,7 @@ The `net` command confirms correct port assignments. For example, `s1` connects 
 
 ### 3. Switches Connect to the POX Controller
 
-![Switches Connected to POX](Screenshot_2026-04-11_at_10_54_47_PM.png)
+![Switches Connected to POX](screenshots/4.png)
 
 All three switches (`Switch 1`, `Switch 3`, `Switch 2`) successfully register with the POX controller via OpenFlow. The controller logs each connection with its datapath ID (dpid). This confirms the control plane is fully operational.
 
@@ -206,7 +206,7 @@ All three switches (`Switch 1`, `Switch 3`, `Switch 2`) successfully register wi
 
 ### 4. Initial Connectivity Test — `pingall`
 
-![Pingall 0% Loss](Screenshot_2026-04-11_at_10_56_14_PM.png)
+![Pingall 0% Loss](screenshots/5.png)
 
 `pingall` confirms full end-to-end reachability: `h1 → h2` and `h2 → h1` both succeed. **0% packet drop** confirms the MAC-learning controller is installing correct flow rules.
 
@@ -214,7 +214,7 @@ All three switches (`Switch 1`, `Switch 3`, `Switch 2`) successfully register wi
 
 ### 5. Continuous Ping — `h1 ping h2`
 
-![h1 Ping h2](Screenshot_2026-04-11_at_10_59_42_PM.png)
+![h1 Ping h2](screenshots/2.png)
 
 A sustained ping from `h1` to `h2` over 12 packets shows:
 - **0% packet loss**
@@ -226,7 +226,7 @@ This demonstrates stable forwarding under normal conditions.
 
 ### 6. Flow Table Inspection (Normal Operation)
 
-![Dump Flows — Normal](Screenshot_2026-04-11_at_11_04_18_PM.png)
+![Dump Flows — Normal](screenshots/7.png)
 
 The flow table on `s1` under normal operation shows many entries — primarily IPv6 multicast traffic (destination `33:33:00:00:00:02`) being flooded. All entries carry `idle_timeout=10` and `hard_timeout=30` as configured. The high packet counts (up to millions) reflect background protocol traffic during the experiment.
 
@@ -234,7 +234,7 @@ The flow table on `s1` under normal operation shows many entries — primarily I
 
 ### 7. Flow Table — After Ping (ICMP Entries Visible)
 
-![Dump Flows — ICMP Learned](c1_0.png)
+![Dump Flows — ICMP Learned](screenshots/3.png)
 
 After pinging, the controller has learned both directions of ICMP traffic:
 - Traffic from `h1 (10.0.0.1)` → `h2 (10.0.0.2)` uses `actions=FLOOD` (destination not yet fully resolved on this switch's port)
@@ -246,7 +246,7 @@ This confirms the MAC-learning mechanism is working correctly.
 
 ### 8. Link Failure and Recovery
 
-![Link Failure and Recovery](Screenshot_2026-04-11_at_11_08_15_PM.png)
+![Link Failure and Recovery](screenshots/8.png)
 
 **Simulating failure:**
 ```
@@ -261,7 +261,7 @@ The first `pingall` after the failure shows **50% packet drop** — `h1 → h2` 
 
 ### 9. Bandwidth Test — `iperf`
 
-![iperf Bandwidth](Screenshot_2026-04-11_at_11_10_31_PM.png)
+![iperf Bandwidth](screenshots/9.png)
 
 An `iperf` TCP bandwidth test between `h1` and `h2` reports **11.7 Gbits/sec** in both directions. This reflects the virtual link capacity in Mininet (software-emulated) and confirms the data plane is functioning at full throughput.
 
