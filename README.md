@@ -185,7 +185,7 @@ The POX controller (v0.7.0) starts up and listens on `0.0.0.0:6633` for incoming
 
 ### 2. Launching Mininet and Verifying Topology
 
-![Mininet Launch](screenshots/6.png)
+![Mininet Launch](screenshots/2.png)
 
 Mininet starts and creates the full network:
 - Hosts `h1` and `h2` are added
@@ -206,7 +206,7 @@ All three switches (`Switch 1`, `Switch 3`, `Switch 2`) successfully register wi
 
 ### 4. Initial Connectivity Test — `pingall`
 
-![Pingall 0% Loss](screenshots/5.png)
+![Pingall 0% Loss](screenshots/3.png)
 
 `pingall` confirms full end-to-end reachability: `h1 → h2` and `h2 → h1` both succeed. **0% packet drop** confirms the MAC-learning controller is installing correct flow rules.
 
@@ -214,7 +214,7 @@ All three switches (`Switch 1`, `Switch 3`, `Switch 2`) successfully register wi
 
 ### 5. Continuous Ping — `h1 ping h2`
 
-![h1 Ping h2](screenshots/2.png)
+![h1 Ping h2](screenshots/6.png)
 
 A sustained ping from `h1` to `h2` over 12 packets shows:
 - **0% packet loss**
@@ -226,7 +226,7 @@ This demonstrates stable forwarding under normal conditions.
 
 ### 6. Flow Table Inspection (Normal Operation)
 
-![Dump Flows — Normal](screenshots/7.png)
+![Dump Flows — Normal](screenshots/9.png)
 
 The flow table on `s1` under normal operation shows many entries — primarily IPv6 multicast traffic (destination `33:33:00:00:00:02`) being flooded. All entries carry `idle_timeout=10` and `hard_timeout=30` as configured. The high packet counts (up to millions) reflect background protocol traffic during the experiment.
 
@@ -234,7 +234,7 @@ The flow table on `s1` under normal operation shows many entries — primarily I
 
 ### 7. Flow Table — After Ping (ICMP Entries Visible)
 
-![Dump Flows — ICMP Learned](screenshots/3.png)
+![Dump Flows — ICMP Learned](screenshots/5.png)
 
 After pinging, the controller has learned both directions of ICMP traffic:
 - Traffic from `h1 (10.0.0.1)` → `h2 (10.0.0.2)` uses `actions=FLOOD` (destination not yet fully resolved on this switch's port)
@@ -261,7 +261,7 @@ The first `pingall` after the failure shows **50% packet drop** — `h1 → h2` 
 
 ### 9. Bandwidth Test — `iperf`
 
-![iperf Bandwidth](screenshots/9.png)
+![iperf Bandwidth](screenshots/7.png)
 
 An `iperf` TCP bandwidth test between `h1` and `h2` reports **11.7 Gbits/sec** in both directions. This reflects the virtual link capacity in Mininet (software-emulated) and confirms the data plane is functioning at full throughput.
 
