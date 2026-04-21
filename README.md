@@ -228,7 +228,7 @@ This demonstrates stable forwarding under normal conditions.
 
 ![Dump Flows — Normal](screenshots/9.png)
 
-The flow table on `s1` under normal operation shows many entries — primarily IPv6 multicast traffic (destination `33:33:00:00:00:02`) being flooded. All entries carry `idle_timeout=10` and `hard_timeout=30` as configured. The high packet counts (up to millions) reflect background protocol traffic during the experiment.
+The flow table on `s1` under normal operation shows many entries — primarily IPv6 multicast traffic (destination `33:33:00:00:00:02`) being flooded. All entries carry `idle_timeout=10` and `hard_timeout=30` as configured. 
 
 ---
 
